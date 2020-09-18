@@ -72,16 +72,7 @@ add_action( 'init', 'cptui_register_my_cpts_ucf_fs_topic_tracker' );
 	
 
 
-function ucf_fs_topic_single_template( $template ) {
 
-	if ( is_singular( 'ucf_fs_topic_tracker' ) ) {
-		$template = plugin_dir_path( __DIR__ ) . 'templates\ucf_fs_topic_tracker.php';
-	}
-	
-	return $template;
-}
-
-add_filter( 'single_template', 'ucf_fs_topic_single_template', 50, 1 );
 
 
 
