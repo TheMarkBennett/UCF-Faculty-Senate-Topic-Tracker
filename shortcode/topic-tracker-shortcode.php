@@ -69,7 +69,7 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 			// This is the output for your entry so what you want to do for each post.
 			$output .='
 					<tr>
-						<td>' . get_the_title() .'</td>';
+						<td><a href="' . get_permalink() . '">' . get_the_title() . '</a></td>';
 
 			//Get the repeater fields for the latest status
 			$repeater = get_field('topic_tracker_status_update');
