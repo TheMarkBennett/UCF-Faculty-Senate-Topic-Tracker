@@ -9,7 +9,7 @@ function cptui_register_my_cpts_ucf_fs_topic_tracker() {
 	$labels = [
 		"name" => __( "Topics Tracker", "custom-post-type-ui" ),
 		"singular_name" => __( "Topic Tracker", "custom-post-type-ui" ),
-		"menu_name" => __( "My Topic Tracker", "custom-post-type-ui" ),
+		"menu_name" => __( "Topic Tracker", "custom-post-type-ui" ),
 		"all_items" => __( "All Topics", "custom-post-type-ui" ),
 		"add_new" => __( "Add new", "custom-post-type-ui" ),
 		"add_new_item" => __( "Add new Topic", "custom-post-type-ui" ),
@@ -61,7 +61,8 @@ function cptui_register_my_cpts_ucf_fs_topic_tracker() {
 		"hierarchical" => false,
 		"rewrite" => [ "slug" => "topic", "with_front" => true ],
 		"query_var" => true,
-		"menu_position" => 5.43,
+		"menu_position" => 5,
+		"menu_icon" => "dashicons-clipboard",
 		"supports" => [ "title", "editor", "revisions" ],
 	];
 
