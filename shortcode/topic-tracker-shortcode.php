@@ -3,6 +3,34 @@
 // Add Shortcode
 function UCF_fs_topic_tracker_shortcode( $atts ) {
 
+
+	$output .='<form method="GET">
+		<div class="">
+			<div class="row form-group">
+				<div class="col-4">
+					<input type="text" class="form-control" id="topic-search" placeholder="Search" name="s">
+				</div>
+				<div class="col-3">
+					<select class="form-control">
+						<option>Mustard</option>
+						<option>Ketchup</option>
+						<option>Relish</option>
+					</select>
+				</div>
+				<div class="col-3">
+					<select class="form-control">
+						<option>2020</option>
+						<option>2019</option>
+						<option>2018</option>
+					</select>
+				</div>
+				<div class="col-2">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>			
+		</div>
+	</form>';
+
 	// Attributes
 	$atts = shortcode_atts(
 		array(
@@ -41,6 +69,8 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 		*/
 	);
 
+
+
 	// Query posts
 	$custom_query = new WP_Query( $query_args );
 
@@ -53,7 +83,7 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 					<thead class="thead-inverse">
 						<tr>
 							<th scope="col">Topic</th>
-							<th scope="col">Staus</th>
+							<th scope="col">Status</th>
 							<th scope="col">Last Updated</th>
 							
 						</tr>

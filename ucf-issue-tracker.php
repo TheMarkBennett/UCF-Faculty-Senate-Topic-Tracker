@@ -53,3 +53,47 @@ function ucf_fs_topic_tracker_register_sidebars() {
     
 }
 add_action( 'widgets_init', 'ucf_fs_topic_tracker_register_sidebars' );
+
+
+
+// Add a filter to 'template_include' hook
+//add_filter( 'template_include', 'wpse_force_template' );
+function wpse_force_template( $template ) {
+    // If the current url is an archive of any kind
+    if( is_archive() ) {
+        // Set this to the template file inside your plugin folder
+        $template = WP_PLUGIN_DIR .'/'. plugin_basename( dirname(__FILE__) ) .'/archive.php';
+    }
+    // Always return, even if we didn't change anything
+    return $template;
+}
+
+//add_filter('template_include', 'lessons_template');
+
+function lessons_template( $template ) {
+  if ( is_post_type_archive('my_plugin_lesson') ) {
+    $theme_files = array('archive-my_plugin_lesson.php', 'myplugin/archive-lesson.php');
+    $exists_in_theme = locate_template($theme_files, false);
+    if ( $exists_in_theme != '' ) {
+      return $exists_in_theme;
+    } else {
+      return plugin_dir_path(__FILE__) . 'archive-lesson.php';
+    }
+  }
+  return $template;
+}
+
+
+function use_custom_template($tpl){
+	if ( is_post_type_archive ( 'ucf_fs_topic_tracker' ) ) {
+	  $tpl = plugin_dir_path( __FILE__ ) . '/templates/ucf_fs_topic_tracker_archive.php';
+	}
+	return $tpl;
+  }
+  
+  add_filter( 'archive_template', 'use_custom_template' ) ;
+
+
+
+
+
