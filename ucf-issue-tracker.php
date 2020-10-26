@@ -2,7 +2,7 @@
 /*
 Plugin Name: UCF Faculty Senate Topic Tracker
 Description: Provides an issue tracker for faculty senate.
-Version: 1.0.02
+Version: 1.0.03
 Author: Mark Bennett
 License: GPL3
 GitHub Plugin URI:  TheMarkBennett/UCF-Faculty-Senate-Topic-Tracker
