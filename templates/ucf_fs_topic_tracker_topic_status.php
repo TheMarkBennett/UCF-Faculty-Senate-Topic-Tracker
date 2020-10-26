@@ -24,7 +24,7 @@ if( $statusOrder ): ?>
 			<div class="row">
 				<div class="col-md-2 issue-status-info">
 					<div class=" result-label text-default-aw text-uppercase small">Status</div> 
-					<div class=" "><?php echo esc_html($row['topic_tracker_status']); ?></div> 
+					<div class=" "><?php echo esc_html($row['topic_tracker_status']['label']); ?></div> 
 				</div>
 				<div class="col-md-2 issue-status-info">
 					<div class=" result-label text-default-aw text-uppercase small">Date</div> 
@@ -36,10 +36,15 @@ if( $statusOrder ): ?>
 				</div>				
 			</div>
 		</div>
+		
+		
+		
+		
 		<?php
 		/*
 		*	Reverse comments order
 		*/
+		/*
 		$commentsRepeater = $row['topic_tracker_comments_list']; 
 		$commentsOrder = array_reverse($commentsRepeater); 
 		
@@ -59,7 +64,11 @@ if( $statusOrder ): ?>
 				<?php endforeach; ?>
 			</div>
 		</div>
-		<?php endif; ?>
+		<?php endif; */ ?>
+ 
+
+
+
 	</div>
 	<?php endforeach; ?>
 </section>

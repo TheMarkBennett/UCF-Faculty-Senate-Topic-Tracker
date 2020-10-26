@@ -17,7 +17,7 @@ function ucf_fs_issue_template_topic_info() {
 							<?php
 								$repeater = get_field('topic_tracker_status_update');
 								$last_row = end($repeater);
-								echo $last_row['topic_tracker_status'];
+								echo $last_row['topic_tracker_status']['label'];
 							?>
 						</div>
 					</div>
