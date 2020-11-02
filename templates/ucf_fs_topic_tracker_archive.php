@@ -11,32 +11,21 @@
 			<div class="">
 				<div class="row form-group">
 					<div class="col-12">						
-						<input type="text" class="form-control" id="topic-search" placeholder="Search" name="s">
+						<input type="text" class="form-control" value=" <?php echo get_search_query() ?>" class="topic-search" id="topic-search" placeholder="Search" name="s">
 					</div>										
 				</div>
 				<div class="row form-group">
 				<div class="col-4">
 					
-					<select class="form-control topic-tracker-status1"  name="status">
-
+					<select class="form-control topic-tracker-status"  name="status">
 					<option value="">All Status</option>
+					<option value="completed" <?php echo selected($_GET['status'], 'completed' ); ?>  > Completed </option>
+					<option value="in_progress" <?php echo selected($_GET['status'], 'in_progress' ); ?> > In Progress </option>
+					<option value="committee_monitoring" <?php echo selected($_GET['status'], 'committee_monitoring' ); ?> > Committee monitoring </option>
+					<option value="not_addressed" <?php echo selected($_GET['status'], 'not_addressed' ); ?> > Not addressed </option>
+					<option value="pending" <?php echo selected($_GET['status'], 'pending' ); ?> > Pending </option>
+					<option value="closed" <?php echo selected($_GET['status'], 'closed' ); ?> > Closed </option>			
 
-						<?php if( have_rows('topic_tracker_status_update') ): ?>
-							<?php while( have_rows('topic_tracker_status_update') ): the_row(); ?>
-								<?php 
-
-								// Get the sub field called "select".
-								$select = get_sub_field_object('topic_tracker_status');								
-
-								?>							
-								
-									<?php foreach( $select['choices'] as $k => $v ): ?>
-										<option value="<?php echo esc_attr($k) ?>"> <?php echo esc_html($v); ?> </option>
-									<?php endforeach; ?>
-
-								<?php break; ?>	
-							<?php endwhile; ?>
-						<?php endif; ?>						
 						</select>
 					</div>										
 					<div class="col-6">
@@ -53,7 +42,7 @@
 							);
 							$query = new WP_Query( $args );
 							while ( $query->have_posts() ) : $query->the_post(); ?>
-							<option value="<?php echo esc_attr(get_the_ID()); ?>"><?php the_title(); ?></option> 
+							<option value="<?php echo esc_attr(get_the_ID()); ?>" <?php echo selected($_GET['committee'], get_the_ID() ); ?> ><?php the_title(); ?></option> 
 						<?php endwhile;
 						wp_reset_postdata(); 
 						?>						
@@ -90,26 +79,23 @@
 				
 				<?php
 				
-				$repeater = get_field('topic_tracker_status_update');				
-				$last_row = NULL;
-				if($repeater){
-				
-					if (count($repeater) > 1) {
-						$last_row = end($repeater);	
-						//var_dump($last_row['topic_tracker_status']);					
-					}elseif(count($repeater) == 1){
-						$last_row = $repeater[0];
-						//var_dump($last_row[0]['topic_tracker_status']);	
-					}
-				}
 
+			$rows = get_field( 'topic_tracker_status_update', get_the_ID() ); // get all the rows from and page ID
+			if($rows):
+								
+					$end_row = end( $rows ); // get the end row
+
+					
+				
+			endif;
+
+			if(isset($end_row)):	
+			$status = $end_row['topic_tracker_status' ]['value']; // get the sub field value 
+			$lastUpdated = $end_row['topic_tracker_status_date' ]; // get the sub field value
+			endif;
 			
-			 if(! $last_row == NULL)
-			 {
-			$status = $last_row['topic_tracker_status']['label'];
-			 $lastUpdated = $last_row['topic_tracker_status_date'];
-			 
-			 }
+			//var_dump($status); 
+			
 				
 				?>
 				<tr>
@@ -131,3 +117,8 @@
 </div>
 
 <?php get_footer(); ?>
+
+
+
+
+
