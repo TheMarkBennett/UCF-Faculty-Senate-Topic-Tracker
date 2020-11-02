@@ -18,13 +18,14 @@
 				<div class="col-4">
 					
 					<select class="form-control topic-tracker-status"  name="status">
+					<?php if(!isset($_GET['status'])){$_GET['status'] = ""; } ?>
 					<option value="">All Status</option>
-					<option value="completed" <?php echo selected($_GET['status'], 'completed' ); ?>  > Completed </option>
-					<option value="in_progress" <?php echo selected($_GET['status'], 'in_progress' ); ?> > In Progress </option>
-					<option value="committee_monitoring" <?php echo selected($_GET['status'], 'committee_monitoring' ); ?> > Committee monitoring </option>
-					<option value="not_addressed" <?php echo selected($_GET['status'], 'not_addressed' ); ?> > Not addressed </option>
-					<option value="pending" <?php echo selected($_GET['status'], 'pending' ); ?> > Pending </option>
-					<option value="closed" <?php echo selected($_GET['status'], 'closed' ); ?> > Closed </option>			
+					<option value="completed" <?php selected($_GET['status'], 'completed' ); ?>  > Completed </option>
+					<option value="in_progress" <?php  selected($_GET['status'], 'in_progress' ); ?> > In Progress </option>
+					<option value="committee_monitoring" <?php selected($_GET['status'], 'committee_monitoring' ); ?> > Committee monitoring </option>
+					<option value="not_addressed" <?php  selected($_GET['status'], 'not_addressed' ); ?> > Not addressed </option>
+					<option value="pending" <?php  selected($_GET['status'], 'pending' ); ?> > Pending </option>
+					<option value="closed" <?php  selected($_GET['status'], 'closed' ); ?> > Closed </option>			
 
 						</select>
 					</div>										
@@ -42,7 +43,7 @@
 							);
 							$query = new WP_Query( $args );
 							while ( $query->have_posts() ) : $query->the_post(); ?>
-							<option value="<?php echo esc_attr(get_the_ID()); ?>" <?php echo selected($_GET['committee'], get_the_ID() ); ?> ><?php the_title(); ?></option> 
+							<option value="<?php echo esc_attr(get_the_ID()); ?>" <?php if(isset($_GET['committee'])){echo selected($_GET['committee'], get_the_ID() );} ?> ><?php the_title(); ?></option> 
 						<?php endwhile;
 						wp_reset_postdata(); 
 						?>						
