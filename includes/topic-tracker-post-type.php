@@ -1,5 +1,9 @@
 <?php
 
+/*
+*	Topics tracker custom postype
+*/
+
 function cptui_register_my_cpts_ucf_fs_topic_tracker() {
 
 	/**
@@ -71,6 +75,58 @@ function cptui_register_my_cpts_ucf_fs_topic_tracker() {
 
 add_action( 'init', 'cptui_register_my_cpts_ucf_fs_topic_tracker' );
 	
+
+
+/*
+*  Add sidebar
+*/
+
+
+function ucf_fs_topic_tracker_register_sidebars() {
+    /* Register the 'primary' sidebar. */
+    register_sidebar(
+        array(
+            'id'            => 'topic-tracker-sidebar',
+            'name'          => __( 'Topic Tracker Sidebar' ),
+            'description'   => __( 'This is the sidebar on the topic tracker.' ),
+            'before_widget' => '<aside id="%1$s" class="widget %2$s p-3 mb-4">',
+            'after_widget'  => '</aside>',
+            'before_title'  => '<h3 class="widget-title heading-underline h6">',
+            'after_title'   => '</h3>',
+        )
+    );
+    
+}
+add_action( 'widgets_init', 'ucf_fs_topic_tracker_register_sidebars' );
+
+
+
+
+/*
+* Update date the status field based on the repeater field
+*/
+
+function ucf_acf_save_status( $post_id ) {
+    
+	// get repeater field value
+	  $repeater = get_field('topic_tracker_status_update');
+  
+	if($repeater){
+	  
+	  // get last row in repeater field
+	  $row = array_pop($repeater);
+	 
+	  $value = $row['topic_tracker_status' ]['value'];
+	
+	}
+  
+	//update current status field with the last field of the repeater
+	update_field('topic_tracker_current_status', $value);
+	
+  }
+  
+  add_action('acf/save_post', 'ucf_acf_save_status', 20);
+  
 
 
 
