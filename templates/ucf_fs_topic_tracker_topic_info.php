@@ -16,8 +16,10 @@ function ucf_fs_issue_template_topic_info() {
 						<div>
 							<?php
 								$repeater = get_field('topic_tracker_status_update');
-								$last_row = end($repeater);
+								if($repeater){
+								$last_row = array_pop($repeater);
 								echo $last_row['topic_tracker_status']['label'];
+								}
 							?>
 						</div>
 					</div>
@@ -25,9 +27,9 @@ function ucf_fs_issue_template_topic_info() {
 						<div class="h6 mb-0">Date of last status:</div>
 						<div class="">
 							<?php
-								$repeater = get_field('topic_tracker_status_update');
-								$last_row = end($repeater);
+								if($repeater){								
 								echo $last_row['topic_tracker_status_date'];
+								}
 							?>
 						</div>						
 					</div>
