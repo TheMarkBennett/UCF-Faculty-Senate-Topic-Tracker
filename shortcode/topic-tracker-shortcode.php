@@ -1,35 +1,14 @@
 <?php
 
+
+/*
+* Shorcode to display topics form the topics tracker
+*/
+
 // Add Shortcode
 function UCF_fs_topic_tracker_shortcode( $atts ) {
 
 
-	$output .='<form method="GET">
-		<div class="">
-			<div class="row form-group">
-				<div class="col-4">
-					<input type="text" class="form-control" id="topic-search" placeholder="Search" name="s">
-				</div>
-				<div class="col-3">
-					<select class="form-control">
-						<option>Mustard</option>
-						<option>Ketchup</option>
-						<option>Relish</option>
-					</select>
-				</div>
-				<div class="col-3">
-					<select class="form-control">
-						<option>2020</option>
-						<option>2019</option>
-						<option>2018</option>
-					</select>
-				</div>
-				<div class="col-2">
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</div>
-			</div>			
-		</div>
-	</form>';
 
 	// Attributes
 	$atts = shortcode_atts(
@@ -37,7 +16,8 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 			'status' => '',
 			'order' => 'ASC',
 			'orderby' => '',
-			'posts_per_page' => '-1',
+			'posts_per_page' => '5',
+			'committee'  => '',
 		),
 		$atts,
 		'topic-tracker'
@@ -48,29 +28,26 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 
 	// Define query
 	$query_args = array(
-		'post_type'      => 'ucf_fs_topic_tracker', // Change this to the type of post you want to show
+		'post_type'      => 'ucf_fs_topic_tracker', 
 		'posts_per_page' => $posts_per_page,
-		/*
-		'meta_query'	=> array(
-			'relation'		=> 'AND',
-			array(
-				'key'		=> 'location',
-				'value'		=> 'Melbourne',
-				'compare'	=> '='
-			),
-			array(
-				'key'		=> 'attendees',
-				'value'		=> 100,
-				'type'		=> 'NUMERIC',
-				'compare'	=> '>'
-				)
-		)
-
-		*/
+		
+		
 	);
 
+	// Add a committee to the query
+	if(!empty($committee)){
+	$query_args['meta_query'] = array(
+		'relation' => 'AND', 
+		 array('key' => 'topic_tracker_committee_assignment_copy', 
+			   'value' => $committee, 
+			   'compare' => '==', 
+			   'type' => 'NUMERIC'
+			   )
+		 );
 
+	}
 
+	$output ="";
 	// Query posts
 	$custom_query = new WP_Query( $query_args );
 
@@ -78,9 +55,9 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 	if ( $custom_query->have_posts() ) {
 
 		// Open div wrapper around loop
-		$output .= '<div class="topic-tracker table-responsive">
-					<table class="table table-hover">
-					<thead class="thead-inverse">
+		$output .= '<div class="topic-tracker-shortcode table-responsive">
+					<table class="table table-striped">
+					<thead class="">
 						<tr>
 							<th scope="col">Topic</th>
 							<th scope="col">Status</th>
@@ -99,18 +76,30 @@ function UCF_fs_topic_tracker_shortcode( $atts ) {
 			// This is the output for your entry so what you want to do for each post.
 			$output .='
 					<tr>
-						<td><a href="' . get_permalink() . '">' . get_the_title() . '</a></td>';
+						<td><a href="' . get_permalink() . '" class="text-secondary">' . get_the_title() . '</a></td>';
 
 			//Get the repeater fields for the latest status
 			$repeater = get_field('topic_tracker_status_update');
-			$last_row = end($repeater);						
-
-			$output .='			
-						<td>'. $last_row['topic_tracker_status'] .'</td>
-						<td>'. $last_row['topic_tracker_status_date'] .'</td>
-					</tr>';
 		
 
+			if(isset($repeater)): //check if the repeater field is set
+				$last_row = array_pop($repeater);	// get the last row of the repeater
+					
+			endif;
+
+			/*
+			* Out put the tracker status and date if avaliable
+			*/
+				$output .='			
+							<td>'; 
+							if(isset($last_row)){ $output .= $last_row['topic_tracker_status']['label'];} 
+				$output .='</td>
+							<td>';
+							if(isset($last_row)){ $output .= $last_row['topic_tracker_status_date'];} 
+				$output .='</td>
+						</tr>';
+			
+			
 		}
 
 		// Close div wrapper around loop
