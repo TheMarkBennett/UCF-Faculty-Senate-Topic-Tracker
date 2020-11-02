@@ -27,7 +27,9 @@ function ucf_fs_issue_template_topic_info() {
 						<div class="h6 mb-0">Date of last status:</div>
 						<div class="">
 							<?php
-								if($repeater){								
+								$repeater = get_field('topic_tracker_status_update');
+								if($repeater){	
+								$last_row = array_pop($repeater);								
 								echo $last_row['topic_tracker_status_date'];
 								}
 							?>
@@ -47,7 +49,8 @@ function ucf_fs_issue_template_topic_info() {
 				<div class="col-md-4">
 					<div class="topic-info-item mb-4">
 						<div class="h6 mb-0">Committee Assignment</div>
-						<div><?php the_field('topic_tracker_committee_assignment'); ?></div>
+						<?php $committee = get_field('topic_tracker_committee_assignment');?>
+						<div><?php if( $committee ){echo esc_html( $committee->post_title );} ?></div>
 					</div>
 					<div class="topic-info-item mb-4">
 						<div class="h6 mb-0">Referred By:</div>
